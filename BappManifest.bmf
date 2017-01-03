@@ -1,0 +1,10 @@
+Uuid: e3a26fff8e1d401dade52f3a8d42d06b
+ExtensionType: 2
+Name: Carbonator
+ScreenVersion: 1.2
+SerialVersion: 3
+MinPlatformVersion: 0
+ProOnly: True
+Author:  Integris Security
+ShortDescription: Provides a command-line interface to drive spidering and scanning.
+EntryPoint: carbonator.py

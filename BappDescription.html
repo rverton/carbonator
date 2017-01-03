@@ -1,0 +1,25 @@
+<p>This extension provides a command-line interface to automate the process of 
+configuring target scope, spidering and scanning.</p>
+<p>To use, install the BApp, ensure the Extender option to automatically reload 
+extensions on startup is enabled, and gracefully shut down Burp.</p>
+<p>You can then initiate Carbonator by launching Burp from the command line as 
+follows:</p>
+<pre>
+java -jar -Xmx2g path/to/burp.jar scheme fqdn port folder</pre>
+<p>
+For example:
+</p>
+<pre>
+java -jar -Xmx2g path/to/burp.jar http localhost 80 /folder
+</pre>
+<p>
+Carbonator will then perform the following actions:</p>
+<ul>
+	<li>Add the specified target to Burp's target scope, if needed.</li>
+	<li>Spider the target.</li>
+	<li>Actively scan the target.</li>
+	<li>Generate a scan report in HTML format.</li>
+	<li>Shut down Burp.</li>
+</ul>
+<p>You can also use Carbonator with Burp running in headless mode.</p>
+
