@@ -8,11 +8,11 @@ from burp import IScannerListener
 from java.net import URL
 from java.io import File
 
-FORMAT = '%(asctime)-15s %(message)s'
+FORMAT = "%(asctime)-15s %(message)s"
 logging.basicConfig(format=FORMAT, level=logging.INFO)
 
-class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
 
+class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
     def registerExtenderCallbacks(self, callbacks):
         self._callbacks = callbacks
         self._callbacks.setExtensionName("Carbonator")
@@ -23,9 +23,7 @@ class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
         self.scanner_results = []
         self.packet_timeout = 5
 
-        self.last_packet_seen = int(
-            time.time()
-        )
+        self.last_packet_seen = int(time.time())
 
         if not self.processCLI():
             return
@@ -38,11 +36,15 @@ class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
 
         # ensure that the root directory is scanned
         base_request = "GET {} HTTP/1.1\nHost: {}\n\n".format(self.path, self.fqdn)
-        
+
         if self.scheme == "HTTPS":
-            logging.info(self._callbacks.doActiveScan(self.fqdn, self.port, 1, base_request))
+            logging.info(
+                self._callbacks.doActiveScan(self.fqdn, self.port, 1, base_request)
+            )
         else:
-            logging.info(self._callbacks.doActiveScan(self.fqdn, self.port, 0, base_request))
+            logging.info(
+                self._callbacks.doActiveScan(self.fqdn, self.port, 0, base_request)
+            )
 
         self._callbacks.sendToSpider(self.url)
         self._callbacks.registerHttpListener(self)
@@ -51,7 +53,9 @@ class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
         while int(time.time()) - self.last_packet_seen <= self.packet_timeout:
             time.sleep(1)
 
-        logging.info("No packets seen in the last {} seconds".format(self.packet_timeout))
+        logging.info(
+            "No packets seen in the last {} seconds".format(self.packet_timeout)
+        )
         logging.info("Removing Listeners")
 
         self._callbacks.removeHttpListener(self)
@@ -75,7 +79,11 @@ class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
             tool_flag == self._callbacks.TOOL_SPIDER and isRequest
         ):  # if is a spider request then send to scanner
             self.spider_results.append(current)
-            logging.info("Sending new URL to Vulnerability Scanner: URL #".format(len(self.spider_results)))
+            logging.info(
+                "Sending new URL to Vulnerability Scanner: URL #".format(
+                    len(self.spider_results)
+                )
+            )
 
             if self.scheme == "https":
                 self._callbacks.doActiveScan(
@@ -88,13 +96,15 @@ class BurpExtender(IBurpExtender, IHttpListener, IScannerListener):
 
     def newScanIssue(self, issue):
         self.scanner_results.append(issue)
-        logging.info("New issue identified: Issue #{}".format(len(self.scanner_results)))
+        logging.info(
+            "New issue identified: Issue #{}".format(len(self.scanner_results))
+        )
 
     def generateReport(self, filename):
         _, format = os.path.splitext(filename)
 
-        if not format in ['xml', 'html']:
-            format = 'xml'
+        if not format in ["xml", "html"]:
+            format = "xml"
 
         self._callbacks.generateScanReport(
             format.upper(), self.scanner_results, File(filename)
