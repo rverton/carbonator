@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 
-BURP_PATH=~/tools/BurpSuitePro/burpsuite_pro.jar
+BURP_PATH=/home/robin/tools/BurpSuitePro/burpsuite_pro.jar
 JAVAPATH=/usr/bin/java
 
 if [ "$#" -ne 5 ]; then
     echo "Usage: $0 scheme fqdn port path output.format"
-	echo " Example: $0 http localhost 80 /path /tmp/result.xml"
+	echo "Example: $0 http localhost 80 /path /tmp/result.xml"
+	exit
 fi
 
 SCHEME=$1
